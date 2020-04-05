@@ -1,7 +1,7 @@
 #'@import shiny
 
 ui <- fluidPage(
-  titlePanel("Coronavirus dashboard"),
+  titlePanel("Pandemic dashboard"),
   sidebarLayout(
     sidebarPanel(
       width = 4,

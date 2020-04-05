@@ -1,1 +1,1 @@
-CoronavirusDashboard::launch_app()
+PANDASH::launch_app()
