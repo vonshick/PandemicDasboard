@@ -1,0 +1,1 @@
+CoronavirusDashboard::launch_app()

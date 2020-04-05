@@ -1,28 +1,5 @@
-ui <- fluidPage(
-  titlePanel("Coronavirus dashboard"),
-  sidebarLayout(
-    sidebarPanel(
-      width = 4,
-      selectInput(inputId = "country_select", label = "Country", choices = c("Poland"))
-    ),
-
-    mainPanel(
-      width = 8,
-      fluidRow(
-        align = "center",
-        height = 4,
-        plotlyOutput(outputId = "total_cases_plot")
-      ),
-      fluidRow(height = 4, br()),
-      fluidRow(
-        align = "center",
-        height = 4,
-        plotlyOutput(outputId = "daily_cases_plot")
-      )
-    )
-  )
-)
-
+#'@import plotly
+#'@import shiny
 server <- function(input, output) {
 
   country_data <- eventReactive(input$country_select, {
@@ -30,7 +7,7 @@ server <- function(input, output) {
   })
 
   output$daily_cases_plot <- renderPlotly({
-    new_statistics %>%
+    country_data() %>%
       plot_ly(
         x = ~date,
         y = ~new_cases,
@@ -88,5 +65,3 @@ server <- function(input, output) {
       )
   })
 }
-
-shinyApp(ui = ui, server = server)

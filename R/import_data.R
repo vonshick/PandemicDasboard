@@ -1,6 +1,7 @@
 
 #'@importFrom dplyr mutate_at vars %>%
 #'@importFrom tidyr replace_na %>%
+#'@importFrom stringr str_replace
 replace_na_with_zeros <- function(data) {
   data %>%
     mutate_at(
