@@ -1,6 +1,7 @@
 #'@import plotly
 #'@import shiny
-server <- function(input, output) {
+#'@import shinydashboard
+pandash_server <- function(input, output) {
 
   country_data <- eventReactive(input$country_select, {
     get_statistics_for_specific_country(input$country_select)

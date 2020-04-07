@@ -4,5 +4,5 @@
 #'
 
 launch_app <- function() {
-  shinyApp(ui = ui, server = server)
+  shinyApp(ui = pandash_ui(), server = pandash_server)
 }
