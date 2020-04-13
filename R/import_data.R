@@ -1,3 +1,9 @@
+#'@importFrom dplyr lag mutate %>%
+add_new_recovered <- function(data) {
+  data %>%
+    mutate(new_recovered = total_recovered - lag(total_recovered, default = 0)) %>%
+    return()
+}
 
 #'@importFrom dplyr mutate_at vars %>%
 #'@importFrom tidyr replace_na %>%
@@ -39,6 +45,7 @@ convert_response_data_to_df <- function(list) {
   }) %>%
   select_the_newest_records() %>%
   replace_na_with_zeros() %>%
+  add_new_recovered() %>%
   return()
 }
 

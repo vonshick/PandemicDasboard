@@ -25,6 +25,14 @@ pandash_server <- function(input, output) {
         color = I("red"),
         name = "New deaths"
       ) %>%
+      add_trace(
+        x = ~date,
+        y = ~new_recovered,
+        type = "scatter",
+        mode = "lines",
+        color = I("green"),
+        name = "New recovered"
+      ) %>%
       layout(
         title = "Cases by day",
         xaxis = list(title = "Day"),

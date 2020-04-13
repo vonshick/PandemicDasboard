@@ -12,7 +12,7 @@ pandash_ui <- function() {
           selectInput(
             inputId = "country_select",
             label = "Country",
-            choices = c("Poland", "Japan", "Italy", "Spain", "Germany", "China")
+            choices = c("Poland", "Belarus", "Italy", "Spain", "Germany") #, "Japan", "China")
           ),
           dateRangeInput(inputId = "date_range", label = "Date range")
         ),
