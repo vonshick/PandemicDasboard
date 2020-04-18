@@ -1,10 +1,29 @@
 #'@import plotly
 #'@import shiny
 #'@import shinydashboard
-pandash_server <- function(input, output) {
+#'@importFrom dplyr between filter %>%
+pandash_server <- function(input, output, session) {
 
   country_data <- eventReactive(input$country_select, {
     get_statistics_for_specific_country(input$country_select)
+  })
+
+  observeEvent(country_data(), {
+    updateDateRangeInput(
+      session,
+      "date_range",
+      start = min(country_data()$date),
+      end = max(country_data()$date),
+      min = min(country_data()$date),
+      max = max(country_data()$date)
+    )
+  })
+
+  linear_model <- reactive({
+    lm(new_cases ~ date,
+       country_data() %>%
+         filter(between(date, input$date_range[1], input$date_range[2]))
+    )
   })
 
   output$daily_cases_plot <- renderPlotly({
