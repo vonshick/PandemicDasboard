@@ -1,3 +1,26 @@
+#'@importFrom dplyr right_join select filter mutate between %>%
+#'@importFrom lubridate as_date
+add_regression_line <- function(data, start_date = NA, end_date = NA) {
+  if(is.na(start_date) | is.na(end_date)) {
+    data %>%
+      mutate(
+        cases_trend = fitted(lm(new_cases ~ date, data))
+      ) %>%
+      return()
+  }
+
+  data_adjusted_to_date <- data %>%
+    filter(between(date, as_date(start_date), as_date(end_date)))
+
+  data_adjusted_to_date %>%
+    mutate(
+      cases_trend = fitted(lm(new_cases ~ date, data_adjusted_to_date))
+    ) %>%
+    select(date, cases_trend) %>%
+    right_join(data, by = "date") %>%
+    return()
+}
+
 #'@importFrom dplyr lag mutate %>%
 add_new_recovered <- function(data) {
   data %>%
@@ -39,7 +62,11 @@ select_the_newest_records <- function(data) {
 convert_response_data_to_df <- function(list) {
   test_that("List contains `stat_by_country`", expect_true("stat_by_country" %in% names(list)))
 
-  map_df(list$stat_by_country, function(record){
+  list_with_removed_nulls <- lapply(list$stat_by_country, function(x) {
+    lapply(x, function(x) ifelse(is.null(x), NA, x))
+  })
+
+  map_df(list_with_removed_nulls, function(record){
     # column `region` is NULL for Poland
     as_tibble(record[names(record) != "region"])
   }) %>%
