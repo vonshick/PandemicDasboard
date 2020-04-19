@@ -11,10 +11,12 @@ pandash_ui <- function() {
           width = 4,
           selectInput(
             inputId = "country_select",
-            label = "Country",
+            label = "Country:",
             choices = c("Poland", "Belarus", "Italy", "Spain", "Germany") #, "Japan", "China")
           ),
-          dateRangeInput(inputId = "date_range", label = "Date range")
+          dateRangeInput(inputId = "date_range", label = "Date range of new cases trendline:"),
+          tags$b("Trendline coefficient:"),
+          textOutput(outputId = "trendline_txt")
         ),
 
         mainPanel(

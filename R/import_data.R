@@ -12,13 +12,16 @@ add_regression_line <- function(data, start_date = NA, end_date = NA) {
   data_adjusted_to_date <- data %>%
     filter(between(date, as_date(start_date), as_date(end_date)))
 
-  data_adjusted_to_date %>%
+  new_cases_lm <- lm(new_cases ~ date, data_adjusted_to_date)
+
+  data_with_trend <- data_adjusted_to_date %>%
     mutate(
-      cases_trend = fitted(lm(new_cases ~ date, data_adjusted_to_date))
+      cases_trend = fitted(new_cases_lm)
     ) %>%
     select(date, cases_trend) %>%
-    right_join(data, by = "date") %>%
-    return()
+    right_join(data, by = "date")
+
+  return(list(data_with_trend = data_with_trend, coefficient = new_cases_lm$coefficients["date"]))
 }
 
 #'@importFrom dplyr lag mutate %>%
